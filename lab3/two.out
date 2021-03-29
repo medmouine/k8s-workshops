@@ -1,0 +1,13 @@
+deployment.apps/dep1 with revision #2
+Pod Template:
+  Labels:	app=dep1
+	pod-template-hash=84b464bc64
+  Containers:
+   simpleapp:
+    Image:	medmouine/simpleapp:v2
+    Port:	<none>
+    Host Port:	<none>
+    Environment:	<none>
+    Mounts:	<none>
+  Volumes:	<none>
+

@@ -1,0 +1,17 @@
+[entryPoints]
+  [entryPoints.websecure]
+    address = ":6443"
+    [entryPoints.websecure.http.tls]
+      [[entryPoints.websecure.http.tls.domains]]
+        main = "10.0.0.30"
+  [entryPoints.dash]
+    address = ":8001"
+    [entryPoints.dash.http.tls]
+      [[entryPoints.dash.http.tls.domains]]
+        main = "10.0.0.30"
+
+[providers.file]
+  directory = "/tmp/traefikconf/"
+
+[serversTransport]
+  insecureSkipVerify = true
