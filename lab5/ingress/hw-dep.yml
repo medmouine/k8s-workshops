@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep-hw
+  labels:
+    app: hw
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: hw
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: hw
+    spec:
+      containers:
+      - image: paulbouwer/hello-kubernetes:1.8
+        imagePullPolicy: Always
+        name: hello-svc
+        ports:
+        - containerPort: 8081
+        env:
+        - name: MESSAGE
+          value: Hello Hello Hello
+        - name: PORT
+          value: "8081"
+      - image: paulbouwer/hello-kubernetes:1.8
+        imagePullPolicy: Always
+        name: world-svc
+        ports:
+        - containerPort: 8082
+        env:
+        - name: MESSAGE
+          value: World World World
+        - name: PORT
+          value: "8082"
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: hw
+  ports:
+    - port: 8081
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: world-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: hw
+  ports:
+    - port: 8082

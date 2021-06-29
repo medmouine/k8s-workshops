@@ -110,8 +110,8 @@ spec:
         app: dep1
     spec:
       containers:
-      - image: medmouine/simpleapp:test
-        imagePullPolicy: IfNotPresent
+      - image: medmouine/simpleapp:live2
+        imagePullPolicy: Always
         name: simpleapp
         resources: {}
         terminationMessagePath: /dev/termination-log

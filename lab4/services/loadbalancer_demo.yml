@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep-lb
+  labels:
+    system: secondary
+    app: echo
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      system: secondary
+      app: echo
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        system: secondary
+        app: echo
+        lb: "true"
+    spec:
+      containers:
+      - image: paulbouwer/hello-kubernetes:1.8
+        imagePullPolicy: Always
+        name: echo-service
+        env:
+        - name: MESSAGE
+          value: Hello from LoadBalancer!
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      nodeSelector:
+        system: node-2
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: dep-lb-service
+spec:
+  type: LoadBalancer
+  selector:
+    system: secondary
+    lb: "true"
+  ports:
+      - port: 8080
