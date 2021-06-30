@@ -1,0 +1,46 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: my-pv
+  labels:
+    type: local
+spec:
+  storageClassName: pv-scn
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/host_path_pv"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: my-pvc
+spec:
+  storageClassName: pv-scn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myboot-hp-pvc
+spec:
+  containers:
+    - name: myboot-hp-pvc
+      image: quay.io/rhdevelopers/myboot:v4
+
+      volumeMounts:
+        - mountPath: /tmp/demo
+          name: my-pvc-volume
+
+  volumes:
+    - name: my-pvc-volume
+      persistentVolumeClaim:
+        claimName: my-pvc

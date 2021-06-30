@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myboot-hp
+spec:
+  containers:
+    - name: myboot-hp
+      image: quay.io/rhdevelopers/myboot:v4
+
+      volumeMounts:
+        - mountPath: /tmp/demo
+          name: my-hp-volume
+  volumes:
+    - name: my-hp-volume
+      hostPath:
+        path: "/mnt/data"

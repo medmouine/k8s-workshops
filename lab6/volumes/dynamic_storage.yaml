@@ -1,0 +1,26 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: my-dynamic-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myboot-dynamic
+spec:
+  containers:
+    - name: myboot-dynamic
+      image: quay.io/rhdevelopers/myboot:v4
+      volumeMounts:
+        - mountPath: /tmp/demo
+          name: dynamic-volume
+  volumes:
+    - name: dynamic-volume
+      persistentVolumeClaim:
+        claimName: my-dynamic-pvc
